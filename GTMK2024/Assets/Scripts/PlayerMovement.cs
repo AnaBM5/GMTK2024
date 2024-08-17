@@ -53,7 +53,9 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * currentMoveSpeed, rb.velocity.y);
+        
+        //if(!CheckIfTouchingWall(moveInput))
+            rb.velocity = new Vector2(moveInput * currentMoveSpeed, rb.velocity.y);
     }
 
     void CheckIfGrounded()
@@ -67,11 +69,18 @@ public class PlayerMovement : MonoBehaviour
         }*/
     }
 
-    /* void CheckIfTouchingWall() 
-     {
-         Vector2 wallDirection = Vector2.right * Input.GetAxisRaw("Horizontal");
-         isTouchingWall = Physics2D.Raycast(wallCheck.position, wallDirection, wallCheckDistance, wallLayer);
-     }*/
+    bool CheckIfTouchingWall(float moveInput)
+    {
+        Vector2 directionCheck;
+         if (moveInput > 0f)
+             directionCheck = Vector2.right;
+         else if( moveInput < 0f)
+             directionCheck = Vector2.left;
+         else
+             return true;
+         
+         return Physics2D.Raycast(groundCheck.position, directionCheck, groundCheckDistance, groundLayer);
+     }
 
     void Jump()
     {
@@ -133,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Adjust the camera size proportionally to the player's size
-        playerCamera.orthographicSize = initialCameraSize * scaleFactor;
+        playerCamera.orthographicSize = initialCameraSize * scaleFactor/2f;
     }
 
     private void OnDrawGizmosSelected()
