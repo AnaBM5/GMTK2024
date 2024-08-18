@@ -88,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, currentJumpForce);
@@ -98,29 +99,34 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1)) // Right mouse button makes player bigger
         {
-            ChangeScale(scaleChangeSpeed);
-            ChangeProperties(1);
+            if (ChangeScale(scaleChangeSpeed))
+                ChangeProperties(1);
         }
         else if (Input.GetMouseButtonDown(0)) // Left mouse button makes player smaller
         {
-            ChangeScale(-scaleChangeSpeed);
-            ChangeProperties(-1);
+            if(ChangeScale(-scaleChangeSpeed))
+                ChangeProperties(-1);
         }
     }
 
-    void ChangeScale(float scaleDelta)
+    bool ChangeScale(float scaleDelta)
     {
         // Check if there's something above the player before increasing the scale
         bool canGrow = !Physics2D.Raycast(headCheck.position, Vector2.up, headCheckDistance, obstacleLayer);
 
-        // Only increase scale if there's nothing above the player
-        if (scaleDelta > 0 && !canGrow)
+        Vector3 localScale = transform.localScale;
+        
+        // Only increase scale if there's nothing above the player or new scale is too small 
+        if (scaleDelta > 0 && !canGrow
+            ||  scaleDelta < 0 && localScale.x<= 0.1f)
         {
-            return; // Prevent growth if there's an obstacle above
+            return false; // Prevents from affecting other elements
         }
 
         // Update the scale
-        Vector3 newScale = transform.localScale + new Vector3(scaleDelta, scaleDelta, 0);
+        Vector3 newScale = localScale + new Vector3(scaleDelta, scaleDelta, 0);
+
+
         // Ensure the scale does not go below a certain threshold
         newScale = new Vector3(
             Mathf.Max(newScale.x, initialScale.x * 0.1f),
@@ -128,6 +134,8 @@ public class PlayerMovement : MonoBehaviour
             newScale.z
         );
         transform.localScale = newScale;
+        
+        return true;
 
         /*
         // Update the mass based on the new scale
