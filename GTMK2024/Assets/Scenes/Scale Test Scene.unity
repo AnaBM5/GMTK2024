@@ -662,9 +662,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseMoveSpeed: 5
-  baseJumpForce: 10
+  baseJumpForce: 12
   scaleChangeSpeed: 0.5
-  initialCameraSize: 5
+  currentCameraSize: 5
   playerCamera: {fileID: 1008716892}
   groundCheck: {fileID: 924747289}
   groundCheckDistance: 0.1
@@ -676,6 +676,8 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 8
+  cameraScaleChange: 0.8
+  gravityScaleChange: 0.8
 --- !u!61 &1072180902
 BoxCollider2D:
   m_ObjectHideFlags: 0

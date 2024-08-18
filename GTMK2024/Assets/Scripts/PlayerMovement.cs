@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
     public float baseMoveSpeed = 5f;
     public float baseJumpForce = 10f;
     public float scaleChangeSpeed = 0.1f; // How much the scale changes per click
-    public float initialCameraSize = 5f; // Base size for the camera
+    public float currentCameraSize = 5f; // Base size for the camera
     public Camera playerCamera; // Reference to the player's camera
     public Transform groundCheck;
     public float groundCheckDistance = 0.1f;
@@ -17,12 +17,16 @@ public class PlayerMovement : MonoBehaviour
     public float headCheckDistance = 0.1f; // Distance to check above the player's head
     public LayerMask obstacleLayer; // Layer for obstacles above the player
 
+    [Header("Change values:")]
+    [SerializeField] private float cameraScaleChange = 0.8f;
+    [SerializeField] private float gravityScaleChange = 0.5f;
+    
     private Rigidbody2D rb;
     private bool isGrounded;
     // private bool isTouchingWall; // 
     private Vector3 initialScale;
-    private float initialMass;
-    private float initialGravityScale;
+    private float currentMass;
+    private float currentGravityScale;
     private float currentMoveSpeed;
     private float currentJumpForce;
 
@@ -30,15 +34,15 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         initialScale = transform.localScale;
-        initialMass = rb.mass;
-        initialGravityScale = rb.gravityScale;
+        currentMass = rb.mass;
+        currentGravityScale = rb.gravityScale;
 
         // Initialize current speed and force
         currentMoveSpeed = baseMoveSpeed;
         currentJumpForce = baseJumpForce;
 
         // Set the initial camera size
-        playerCamera.orthographicSize = initialCameraSize;
+        playerCamera.orthographicSize = currentCameraSize;
     }
 
     void Update()
@@ -92,13 +96,15 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleScaleChange()
     {
-        if (Input.GetMouseButtonDown(1)) // Right mouse button
+        if (Input.GetMouseButtonDown(1)) // Right mouse button makes player bigger
         {
             ChangeScale(scaleChangeSpeed);
+            ChangeProperties(1);
         }
-        else if (Input.GetMouseButtonDown(0)) // Left mouse button
+        else if (Input.GetMouseButtonDown(0)) // Left mouse button makes player smaller
         {
             ChangeScale(-scaleChangeSpeed);
+            ChangeProperties(-1);
         }
     }
 
@@ -123,13 +129,14 @@ public class PlayerMovement : MonoBehaviour
         );
         transform.localScale = newScale;
 
+        /*
         // Update the mass based on the new scale
-        float newMass = initialMass * Mathf.Pow(newScale.x / initialScale.x, 2); // Scale the mass based on the area
+        float newMass = currentMass * Mathf.Pow(newScale.x / initialScale.x, 2); // Scale the mass based on the area
         rb.mass = newMass;
 
         // Adjust gravity based on the new scale
         float scaleFactor = newScale.x / initialScale.x;
-        rb.gravityScale = initialGravityScale * scaleFactor;
+        rb.gravityScale = currentGravityScale * scaleFactor;
 
         // Adjust the jump force only when the player is larger
         if (scaleFactor > 1f)
@@ -143,8 +150,25 @@ public class PlayerMovement : MonoBehaviour
 
         // Adjust the camera size proportionally to the player's size
         playerCamera.orthographicSize = initialCameraSize * scaleFactor/2f;
+        */
     }
 
+    private void ChangeProperties(int sizeMultiplier)
+    {
+        // Update the mass based on the new scale
+        currentMass+= gravityScaleChange* sizeMultiplier; // Scale the mass based on the area
+        rb.mass = currentMass;
+
+        // Adjust gravity based on the new scale
+        currentGravityScale += gravityScaleChange* sizeMultiplier;
+        rb.gravityScale = currentGravityScale;
+
+        // Adjust the jump force only when the player is larger
+        currentJumpForce -= 2f* sizeMultiplier;
+
+        // Adjust the camera size proportionally to the player's size
+        playerCamera.orthographicSize = currentCameraSize + cameraScaleChange * sizeMultiplier;
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
