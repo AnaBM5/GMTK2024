@@ -5,8 +5,8 @@ public class PlayerMovement : MonoBehaviour
     public float baseMoveSpeed = 5f;
     public float baseJumpForce = 10f;
     public float scaleChangeSpeed = 0.1f; // How much the scale changes per click
-    public float currentCameraSize = 5f; // Base size for the camera
-    public Camera playerCamera; // Reference to the player's camera
+    //public float currentCameraSize = 5f; // Base size for the camera
+    public CameraController playerCamera; // Reference to the player's camera
     public Transform groundCheck;
     public float groundCheckDistance = 0.1f;
     public LayerMask groundLayer;
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         currentJumpForce = baseJumpForce;
 
         // Set the initial camera size
-        playerCamera.orthographicSize = currentCameraSize;
+        //playerCamera.orthographicSize = currentCameraSize;
     }
 
     void Update()
@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
         
         //if(!CheckIfTouchingWall(moveInput))
-            rb.velocity = new Vector2(moveInput * currentMoveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveInput * currentMoveSpeed, rb.velocity.y);
     }
 
     void CheckIfGrounded()
@@ -136,29 +136,6 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = newScale;
         
         return true;
-
-        /*
-        // Update the mass based on the new scale
-        float newMass = currentMass * Mathf.Pow(newScale.x / initialScale.x, 2); // Scale the mass based on the area
-        rb.mass = newMass;
-
-        // Adjust gravity based on the new scale
-        float scaleFactor = newScale.x / initialScale.x;
-        rb.gravityScale = currentGravityScale * scaleFactor;
-
-        // Adjust the jump force only when the player is larger
-        if (scaleFactor > 1f)
-        {
-            currentJumpForce = baseJumpForce / scaleFactor;
-        }
-        else
-        {
-            currentJumpForce = baseJumpForce;
-        }
-
-        // Adjust the camera size proportionally to the player's size
-        playerCamera.orthographicSize = initialCameraSize * scaleFactor/2f;
-        */
     }
 
     private void ChangeProperties(int sizeMultiplier)
@@ -175,8 +152,10 @@ public class PlayerMovement : MonoBehaviour
         currentJumpForce -= 2f* sizeMultiplier;
 
         // Adjust the camera size proportionally to the player's size
-        playerCamera.orthographicSize = currentCameraSize + cameraScaleChange * sizeMultiplier;
+        playerCamera.ChangeCameraScale(sizeMultiplier);
+        //playerCamera.orthographicSize = currentCameraSize + cameraScaleChange * sizeMultiplier;
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
