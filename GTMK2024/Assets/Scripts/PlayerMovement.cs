@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     private float currentJumpForce;
     private Transform originalParent;
 
+    private bool paused = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -49,10 +51,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Move();
-        CheckIfGrounded();
-        Jump();
-        HandleScaleChange();
+        if (!paused)
+        {
+            Move();
+            CheckIfGrounded();
+            // CheckIfTouchingWall(); // 
+            Jump();
+            HandleScaleChange();
+        }
     }
 
     void Move()
@@ -154,5 +160,10 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance);
         Gizmos.color = Color.green;
         Gizmos.DrawLine(headCheck.position, headCheck.position + Vector3.up * headCheckDistance);
+    }
+
+    public void SetPaused(bool paused)
+    {
+        this.paused = paused;
     }
 }
