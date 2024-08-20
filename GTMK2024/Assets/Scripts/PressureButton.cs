@@ -3,7 +3,7 @@ using UnityEngine;
 public class PressureButton : MonoBehaviour
 {
     public Transform buttonTop; // The top part of the button that moves
-    public float activationThreshold = 1f; // The distance at which the button activates
+    public float activationThreshold = 0.1f; // The distance at which the button activates
     public bool isActivated = false;
 
     private Vector3 initialPosition;
