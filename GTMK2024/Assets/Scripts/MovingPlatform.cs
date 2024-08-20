@@ -12,12 +12,14 @@ public class MovingPlatform : MonoBehaviour
     private bool isBroken = false;
     private Vector3 respawnPosition;
     private Rigidbody2D rb;
+    private BoxCollider2D boxCollider; // Reference to the BoxCollider2D
 
     void Start()
     {
         startX = transform.position.x;
         respawnPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>(); // Get the BoxCollider2D component
 
         // Freeze the platform in the Y-axis but allow movement in the X-axis
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
@@ -30,6 +32,11 @@ public class MovingPlatform : MonoBehaviour
             return; // Platform is broken, skip movement
         }
 
+        MovePlatform();
+    }
+
+    private void MovePlatform()
+    {
         if (movingRight)
         {
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
@@ -48,10 +55,8 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+     void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
             Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
             if (playerRb != null)
             {
@@ -65,11 +70,22 @@ public class MovingPlatform : MonoBehaviour
                 {
                     Debug.Log("Player mass does not exceed threshold.");
                 }
-            }
-            else
-            {
-                Debug.Log("No Rigidbody2D found on player.");
-            }
+        }
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transform.parent = transform;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Remove the player from being a child of the platform
+            collision.transform.parent = null;
         }
     }
 
@@ -77,20 +93,39 @@ public class MovingPlatform : MonoBehaviour
     {
         isBroken = true;
         rb.velocity = Vector2.zero; // Stop platform movement
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation; // Unfreeze Y-axis to allow falling
 
-        // Remove Y-axis constraint to allow falling
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        // Disable the BoxCollider2D to prevent further interactions
+        boxCollider.enabled = false;
 
         Invoke("RespawnPlatform", respawnDelay);
     }
 
     private void RespawnPlatform()
     {
+        // Find all player objects that were children of the platform and detach them
+        foreach (Transform child in transform)
+        {
+            if (child.CompareTag("Player"))
+            {
+                child.parent = null;
+            }
+        }
         isBroken = false;
+
+        // Reset the platform's velocity
+        rb.velocity = Vector2.zero;
 
         // Reapply Y-axis constraint to stop falling
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
 
+        // Reset the platform's position
         transform.position = respawnPosition;
+
+        // Re-enable the BoxCollider2D for future interactions
+        boxCollider.enabled = true;
+
+
+        movingRight = true;
     }
 }
