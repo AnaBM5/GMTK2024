@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -7,9 +8,9 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private GameObject player;
 
-    [Header("Camera Movement Limits")] [SerializeField]
-    private float minCameraHeight;
-
+    [Header("Camera Movement Limits")] 
+    
+    [SerializeField] private float minCameraHeight;
     [SerializeField] private float maxCameraHeight;
     [SerializeField] private float cameraXOffset;
     [SerializeField] private float movementSpeed = 5f;
@@ -43,6 +44,13 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (player.IsUnityNull())
+        {
+            player = GameObject.FindWithTag("Player");
+            minCameraHeight = player.GetComponent<PlayerMovement>().minCameraHeight;
+            maxCameraHeight = player.GetComponent<PlayerMovement>().maxCameraHeight;
+        }
+            
         playerPosition = player.transform.position;
         MoveCamera();
     }

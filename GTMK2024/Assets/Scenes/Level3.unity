@@ -196,6 +196,14 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 567113181}
+    - target: {fileID: 4044033519381029344, guid: 317725ff684809b4aad41b531a5909a6, type: 3}
+      propertyPath: maxCameraHeight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044033519381029344, guid: 317725ff684809b4aad41b531a5909a6, type: 3}
+      propertyPath: minCameraHeight
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6532860069563592484, guid: 317725ff684809b4aad41b531a5909a6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.29

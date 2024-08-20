@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     private Transform originalParent;
 
     private bool paused = false;
+    
+    public float minCameraHeight;
+    public float maxCameraHeight;
 
     void Start()
     {
