@@ -1,22 +1,52 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
-    private static MusicManager instance;
+    public static MusicManager instance; // Singleton instance
+
+    public AudioSource musicSource; // Reference to the AudioSource component
 
     private void Awake()
     {
-        // Check if there is another instance of MusicManager
+        // Singleton pattern to ensure only one instance of MusicManager exists
         if (instance == null)
         {
-            // If not, set this as the instance and don't destroy it on load
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject); // Keep the music across scenes
         }
         else
         {
-            // If an instance already exists, destroy this one
-            Destroy(gameObject);
+            Destroy(gameObject); // Destroy duplicate MusicManager instances
+        }
+    }
+
+    private void Start()
+    {
+        // Subscribe to scene change events
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe from scene change events
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Check if the loaded scene is the main menu
+        if (scene.name == "Main Menu")
+        {
+            StopMusic();
+        }
+    }
+
+    public void StopMusic()
+    {
+        if (musicSource != null)
+        {
+            musicSource.Stop();
         }
     }
 }
