@@ -1,10 +1,14 @@
 using UnityEngine;
+using System.Collections;
 
 public class PressureButton : MonoBehaviour
 {
     public Transform buttonTop; // The top part of the button that moves
     public float activationThreshold = 0.1f; // The distance at which the button activates
     public bool isActivated = false;
+
+    public GameObject wall; // Reference to the wall GameObject
+    public float deactivateDuration = 2f; // Time in seconds to keep the wall deactivated
 
     private Vector3 initialPosition;
 
@@ -33,11 +37,28 @@ public class PressureButton : MonoBehaviour
     {
         isActivated = true;
         Debug.Log("Button Pressed!");
+
+        if (wall != null)
+        {
+            StartCoroutine(DeactivateWallCoroutine());
+        }
     }
 
     void DeactivateButton()
     {
         isActivated = false;
         Debug.Log("Button Released!");
+    }
+
+    IEnumerator DeactivateWallCoroutine()
+    {
+        // Deactivate the wall
+        wall.SetActive(false);
+
+        // Wait for the specified duration
+        yield return new WaitForSeconds(deactivateDuration);
+
+        // Reactivate the wall
+        wall.SetActive(true);
     }
 }
