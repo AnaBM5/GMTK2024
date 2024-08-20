@@ -590,6 +590,75 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8005938644612267729, guid: 317725ff684809b4aad41b531a5909a6, type: 3}
   m_PrefabInstance: {fileID: 387179904}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &727998151
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2454071992431311155, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_Name
+      value: Arrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7122069723636577601, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.18599999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880801728125080879, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.186
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8050852
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993845187127228795, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936978528798287077, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.333
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 43480aacee602764ba5f4cd8ed951ef3, type: 3}
 --- !u!1001 &933739813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -725,8 +794,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2970359745706132784, guid: 55f7bc3827ab4a24c8cb06e02c952689, type: 3}
+      propertyPath: m_Frequency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970359745706132784, guid: 55f7bc3827ab4a24c8cb06e02c952689, type: 3}
+      propertyPath: m_DampingRatio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970359745706132784, guid: 55f7bc3827ab4a24c8cb06e02c952689, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.030705929
+      value: -0.01760912
       objectReference: {fileID: 0}
     - target: {fileID: 2970359745706132784, guid: 55f7bc3827ab4a24c8cb06e02c952689, type: 3}
       propertyPath: m_ConnectedAnchor.y
@@ -920,3 +997,4 @@ SceneRoots:
   - {fileID: 176115553}
   - {fileID: 387179904}
   - {fileID: 1164254187}
+  - {fileID: 727998151}
